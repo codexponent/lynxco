@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
     <style>
@@ -62,7 +62,7 @@ textarea.form-control{
 }
 
     .demo-layout-transparent {
-        background: url('img/contactImage.jpg') center / cover;
+        background: url('../img/contactImage.jpg') center / cover;
         }
         .demo-layout-transparent .mdl-layout__header,
         .demo-layout-transparent .mdl-layout__drawer-button {
@@ -83,7 +83,7 @@ textarea.form-control{
                 <header class="mdl-layout__header mdl-layout__header--transparent">
                     <div class="mdl-layout__header-row">
                     <!-- Title -->
-                    <span class="mdl-layout-title"><img src="img/lynx.png" height="55" width="60" /></span>
+                    <span class="mdl-layout-title"><img src="../img/lynx.png" height="55" width="60" /></span>
                     <!-- Add spacer, to align navigation to the right -->
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation -->
@@ -118,40 +118,45 @@ textarea.form-control{
         <div class="contact-section">
             <div class="container">
                 <br />
-              <h2>Contact Us</h2>
-              <p>Feel free to shout us by feeling the contact form or visiting our social network sites like Fackebook,Whatsapp,Twitter.</p>
+              <h2>Login/Register</h2>
+              <!-- <p>Feel free to shout us by feeling the contact form or visiting our social network sites like Fackebook,Whatsapp,Twitter.</p> -->
               <div class="row">
               <!-- style="margin-left: 50%;"  -->
 
-              <div class="col-md-2 col-md-offset-2">
-            </div>
-
-                <div class="col-md-8 col-md-offset-2">
-                  <form class="form-horizontal" method="POST" action="contact.php" >
-                    <div class="form-group">
-                      <label for="exampleInputName2" >Name</label>
-                      <input type="text" name="nameField" class="form-control" id="exampleInputName2" placeholder="Your Name">
-                    </div>
+              <div class="col-md-6 col-md-offset-2">
+              <form class="form-horizontal" method="POST" action="customer.php" >
                     <div class="form-group">
                       <label for="exampleInputEmail2">Email</label>
                       <input type="email" name="emailField" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputSubject2">Subject</label>
-                      <input type="subject" name="subjectField" class="form-control" id="exampleInputSubject2" placeholder="Subject">
+                      <label for="exampleInputSubject2">Password</label>
+                      <input type="password" name="passwordField" class="form-control" id="exampleInputSubject2" placeholder="Your Password">
                     </div>
-                    <div class="form-group ">
-                      <label for="exampleInputText">Your Message</label>
-                     <textarea name="messageField" class="form-control" placeholder="Description"></textarea> 
-                    </div>
-                    <button type="submit" name="submit" class="btn btn-default">Send Message</button>
+                    <button type="submit" name="loginSubmit" class="btn btn-default">Login</button>
                   </form>
+            </div>
+
+                <div class="col-md-6 col-md-offset-2">
+                <form class="form-horizontal" method="POST" action="customer.php" >
+                <div class="form-group">
+                  <label for="exampleInputEmail2">Name</label>
+                  <input type="text" name="nameRegisterField" class="form-control" id="exampleInputEmail2" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail2">Email</label>
+                  <input type="email" name="emailRegisterField" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputSubject2">Password</label>
+                  <input type="password" name="passwordRegisterField" class="form-control" id="exampleInputSubject2" placeholder="Your Password">
+                </div>
+                    <button type="submit" name="registerSubmit" class="btn btn-default">Register</button>
+                </form>
 
                   <hr>
                 </div>
 
-                <div class="col-md-2 col-md-offset-2">
-            </div>
 
               </div>
             </div>
@@ -221,21 +226,85 @@ textarea.form-control{
 </html>
 
 <?php
-require_once('functions/MailSender.php');
 
-if (isset($_POST['submit'])){
+require('../functions/Connection.php');
+require('../functions/Insert.php');
 
-    $email = $_POST['emailField'];
-    $name = $_POST['nameField'];
-    $subject = $_POST['subjectField'];
-    $description = $_POST['messageField'];
+if (isset($_POST['loginSubmit'])){
+    echo "Login Clicked";
+    // $c_email = $_POST['emailField'];
+    // $c_password = $_POST['passwordField'];
+    // $encrypt_password = md5($c_password);
 
-    $emailProcess = new MailSender($email, $name, $subject, $description);
-    $emailProcess -> setEmail($email);
-    $emailProcess -> setName($name);
-    $emailProcess -> setSubject($subject);
-    $emailProcess -> setDescription($description);
-    $emailProcess -> sendMail();
+    // $query = "SELECT * FROM customer WHERE password = '$encrypt_password' AND email = '$c_email'";
+
+    // $con = new Connection();
+    // $connection = $con -> getConnection();
+
+
+
+    // $query = "INSERT INTO symbols (country, animal, continent) VALUES ('$country', '$animal', '$continent')"; 
+    // $result = mysqli_query($connection,$query) or exit ("Error in query: $query. ".mysqli_error()); 
+
+    // $checkEmail = mysqli_query($connection, );
+    // if (!$checkEmail) {
+    //     $e = oci_error($connection);
+    //     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    // }
+    // $r = oci_execute($checkEmail);
+    // if (!$r) {
+    //     $e = oci_error($checkEmail);
+    //     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    // }
+    // oci_fetch_array($checkEmail);
+    
+    // $checkNumber = oci_num_rows($checkEmail);
+
+    // if ($checkNumber == 0) {
+    //     echo "<script>alert('Password or email is incorrect')</script>";
+    //     exit();
+    // }
+
+    // $getId = oci_parse($connection, "SELECT customerId FROM customer where email = '$c_email'");
+    // if (!$getId) {
+    //     $e = oci_error($connection);
+    //     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    // }
+    // $r = oci_execute($getId);
+    // if (!$r) {
+    //     $e = oci_error($getId);
+    //     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    // }
+
+    // $row = oci_fetch_assoc($getId);
+    // $id = $row["CUSTOMERID"];
+    // // echo "Id is: " . $id . "<br />";
+
+    // $_SESSION['customer_Id'] = $id;
+    // echo "<script>alert('Logged in Successfully')</script>";
+    // echo "<script>window.open('../customer.php', '_self')</script>";
+
+    // oci_free_statement($checkEmail); 
+    // oci_free_statement($getId); 
+    // oci_close($connection);
+
+
+}else if(isset($_POST['registerSubmit'])){
+    echo "Register Clicked";
+
+    $registerName = $_POST['nameRegisterField'];
+    $registerEmail = $_POST['emailRegisterField'];
+    $registerPassword = $_POST['passwordRegisterField'];
+
+    $insertQuery = "INSERT INTO customer (name, email, password)
+    VALUES ('$registerName', '$registerEmail', '$registerPassword')";
+
+    $gettingConnection = new Connection();
+    $gettingConnection -> setConnection();
+    $connection = $gettingConnection -> getConnection();
+
+    $insertProcess = new Insert();
+    $insertProcess -> execute($insertQuery, $connection);
 
 }
 
