@@ -130,15 +130,19 @@ textarea.form-control{
                   <form class="form-horizontal" method="POST" action="contact.php" >
                     <div class="form-group">
                       <label for="exampleInputName2" >Name</label>
-                      <input type="text" class="form-control" id="exampleInputName2" placeholder="Your Name">
+                      <input type="text" name="nameField" class="form-control" id="exampleInputName2" placeholder="Your Name">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail2">Email</label>
-                      <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
+                      <input type="email" name="emailField" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputSubject2">Subject</label>
+                      <input type="subject" name="subjectField" class="form-control" id="exampleInputSubject2" placeholder="Subject">
                     </div>
                     <div class="form-group ">
                       <label for="exampleInputText">Your Message</label>
-                     <textarea  class="form-control" placeholder="Description"></textarea> 
+                     <textarea name="messageField" class="form-control" placeholder="Description"></textarea> 
                     </div>
                     <button type="submit" name="submit" class="btn btn-default">Send Message</button>
                   </form>
@@ -217,25 +221,20 @@ textarea.form-control{
 </html>
 
 <?php
+//Abp4952Bfj1069
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['submit'])){
 
-    //Abp4952Bfj1069
-
-
-    //Installation
-    // use PHPMailer\PHPMailer\PHPMailer;
-    // use PHPMailer\PHPMailer\Exception;
+    $email = $_POST['emailField'];
+    $name = $_POST['nameField'];
+    $subject = $_POST['subjectField'];
+    $description = $_POST['messageField'];
     
-    require 'mailer/src/Exception.php';
-    require 'mailer/src/PHPMailer.php';
-    require 'mailer/src/SMTP.php';
-    //Installation
-
-
-    // require 'PHPMailerAutoload.php';
-    $mail = new PHPMailer();
-
+    //Load composer's autoloader
+    require 'vendor/autoload.php';
+    $mail = new PHPMailer(true);       
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
     $mail->Port = 587;
@@ -244,12 +243,12 @@ if (isset($_POST['submit'])){
     $mail->Password = 'Abp4952Bfj1069';                           // SMTP password
     $mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
     
-    $mail->From = 'codexponent@gmail.com';
-    $mail->FromName = 'Code Exponent';
-    $mail->addAddress('codexponent@gmail.com', 'Code Exponent');     // Add a recipient
+    $mail->From = 'lynxcorporative@gmail.com';
+    $mail->FromName = 'Lynx Corporative';
+    $mail->addAddress($email, $name);     // Add a recipient
     // $mail->addAddress('ellen@example.com');               // Name is optional
     // $mail->addReplyTo('info@example.com', 'Information');
-    // $mail->addCC('cc@example.com');
+    $mail->addCC('lynxcorporative@gmail.com');
     // $mail->addBCC('bcc@example.com');
     
     $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
@@ -257,8 +256,36 @@ if (isset($_POST['submit'])){
     // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
     $mail->isHTML(true);                                  // Set email format to HTML
     
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+    $message = '<html><body>';
+    $message .= '<img src="https://wallpaperscraft.com/image/couple_food_table_coffee_shop_fast_food_57082_3840x2400.jpg" height="500" width="800" />';
+    $message .= '<br />';
+    $message .= '<h1 style="color:brown;text-align:center;font-family:Comic Sans MS">Lynx Corporative</h1>';
+    $message .= '<br />';
+    $message .= '<p style="text-align:center;font-family:Comic Sans MS">We are delighted to have a question from you. We will reply ASAP. Thankyou.</p>';
+    $message .= '<p style="text-align:center;font-family:Comic Sans MS">Your Question.</p>';
+    $message .= '<p style="text-align:center;font-family:Comic Sans MS">' . $description . '</p>';
+    $message .= '<br />';
+    $message .= '<br />';
+    $message .= '<table align="center" width="604" cellpadding="5" cellspacing="0"> <tr> <td width="288" bgcolor="#ffffff"><img src="https://cdn3.iconfinder.com/data/icons/free-social-icons/67/facebook_square-512.png" height="35" width="35" /><br /> <td width="294" bgcolor="#ffffff" align="right"> <img src="http://icons.iconarchive.com/icons/uiconstock/socialmedia/512/Twitter-icon.png" height="35" width="35" /><tr>';
+    $message .= '<td style="background-color: #ffffff; border-top: 0px solid #000000; text-align: left; height: 50px;" align="center">
+<span style="font-size: 10px; color: #575757; line-height: 120%; font-family: arial; text-decoration: none;">
+<a href="mailto:info@petanthology.com">
+Contact Us?</a><br>
+Visit us on the web at <a href="default.asp">petanthology.com</a></span></td>
+
+<td style="background-color: #ffffff; border-top: 0px solid #000000; text-align: right; height: 50px;" align="center">
+<span style="font-size: 10px; color: #575757; line-height: 120%;
+font-family: arial; text-decoration: none;">If you no longer want to receive our emails, please <a href="default.asp">un-subscribe here</a>.</span>';
+    $message .= '</table>';
+    $message .= "</body></html>";
+
+    $mail->Subject = $subject;
+    $mail->Header = $headers;
+    $mail->Body = $message;
+    // $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
     
     if(!$mail->send()) {
@@ -267,22 +294,7 @@ if (isset($_POST['submit'])){
     } else {
         echo 'Message has been sent';
     }
-
-
-    // echo "The button is clicked";
-    // $to = "sulabh4@hotmail.com";
-    // $subject = "Hi";
-    // $txt = "Hello world!";
-    // // $headers = "From: codexponent@gmail.com" . "\r\n";
-
-    // $headers = 'From: webmaster@example.com' . "\r\n" .
     
-    // 'Reply-To: sulabh4@hotmail.com' . "\r\n" .
-    
-    // 'X-Mailer: PHP/' . phpversion();
-    
-    // mail($to,$subject,$txt,$headers);
-
 }
 
 ?>
