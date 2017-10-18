@@ -1,6 +1,6 @@
 <?php
     
-    class Insert{
+    class Update{
 
         public function execute($queries, mysqli $connection){
             global $connection;

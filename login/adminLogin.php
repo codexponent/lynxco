@@ -90,7 +90,7 @@ textarea.form-control{
                     <nav class="mdl-navigation">
                         <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
+                        <a class="mdl-navigation__link" href="#">Admin</a>
                         <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
                         <a class="mdl-navigation__link" href="#">Contact</a>
@@ -102,7 +102,7 @@ textarea.form-control{
                     <nav class="mdl-navigation">
                     <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
+                        <a class="mdl-navigation__link" href="#">Admin</a>
                         <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
                         <a class="mdl-navigation__link" href="#">Contact</a>
@@ -118,13 +118,17 @@ textarea.form-control{
         <div class="contact-section">
             <div class="container">
                 <br />
-              <h2>Login/Register</h2>
+              <h2>Admin Area</h2>
               <!-- <p>Feel free to shout us by feeling the contact form or visiting our social network sites like Fackebook,Whatsapp,Twitter.</p> -->
               <div class="row">
               <!-- style="margin-left: 50%;"  -->
 
-              <div class="col-md-6 col-md-offset-2">
-              <form class="form-horizontal" method="POST" action="customer.php" >
+              <div class="col-md-2 col-md-offset-2">
+              </div>
+
+              
+              <div class="col-md-8 col-md-offset-2">
+              <form class="form-horizontal" method="POST" action="adminLogin.php" >
                     <div class="form-group">
                       <label for="exampleInputEmail2">Email</label>
                       <input type="email" name="emailField" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
@@ -137,25 +141,8 @@ textarea.form-control{
                   </form>
             </div>
 
-                <div class="col-md-6 col-md-offset-2">
-                <form class="form-horizontal" method="POST" action="customer.php" >
-                <div class="form-group">
-                  <label for="exampleInputEmail2">Name</label>
-                  <input type="text" name="nameRegisterField" class="form-control" id="exampleInputEmail2" placeholder="Your Name">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail2">Email</label>
-                  <input type="email" name="emailRegisterField" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputSubject2">Password</label>
-                  <input type="password" name="passwordRegisterField" class="form-control" id="exampleInputSubject2" placeholder="Your Password">
-                </div>
-                    <button type="submit" name="registerSubmit" class="btn btn-default">Register</button>
-                </form>
-
-                  <hr>
-                </div>
+            <div class="col-md-2 col-md-offset-2">
+              </div>
 
 
               </div>
@@ -228,7 +215,6 @@ textarea.form-control{
 <?php
 
 require('../functions/Connection.php');
-require('../functions/Insert.php');
 require('../functions/View.php');
 
     if (isset($_POST['loginSubmit'])){
@@ -236,9 +222,8 @@ require('../functions/View.php');
 
         $c_email = $_POST['emailField'];
         $c_password = $_POST['passwordField'];
-        $encrypt_password = md5($c_password);
 
-        $checkQuery = "SELECT * FROM customer WHERE password = '$encrypt_password' AND email = '$c_email'";        
+        $checkQuery = "SELECT * FROM admin WHERE password = '$c_password' AND email = '$c_email'";        
 
         $gettingConnection = new Connection();
         $gettingConnection -> setConnection();
@@ -247,7 +232,7 @@ require('../functions/View.php');
         $viewProcess = new View();
         $data = $viewProcess -> execute($checkQuery, $connection);
         
-
+        
         $checkNumber = mysqli_num_rows($data);
         
         if ($checkNumber == 0) {
@@ -255,7 +240,7 @@ require('../functions/View.php');
             exit();
         }
         
-        $getQuery = "SELECT id FROM customer where email = '$c_email'";
+        $getQuery = "SELECT id FROM admin where email = '$c_email'";
 
         $gettingId = new View();
         $dataId = $gettingId -> execute($getQuery, $connection);
@@ -267,29 +252,11 @@ require('../functions/View.php');
         // echo "Id is: " . $id . "<br />";
 
         $_SESSION['id'] = $id;
-        echo "<script>alert('Logged in Successfully')</script>";
+        echo "<script>alert('Admin Logged in Successfully')</script>";
+        echo "<script>window.open('../admin/admin.php', '_self')</script>";
         mysqli_close($connection);
 
 
-
-    }else if(isset($_POST['registerSubmit'])){
-        echo "Register Clicked";
-
-        $registerName = $_POST['nameRegisterField'];
-        $registerEmail = $_POST['emailRegisterField'];
-        $registerPassword = $_POST['passwordRegisterField'];
-        $encrypt_password = md5($registerPassword);
-
-        $insertQuery = "INSERT INTO customer (name, email, password)
-        VALUES ('$registerName', '$registerEmail', '$encrypt_password')";
-
-        $gettingConnection = new Connection();
-        $gettingConnection -> setConnection();
-        $connection = $gettingConnection -> getConnection();
-
-        $insertProcess = new Insert();
-        $insertProcess -> execute($insertQuery, $connection);
-        mysqli_close($connection);
 
     }
 
