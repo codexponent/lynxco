@@ -123,10 +123,49 @@ textarea.form-control{
               <div class="row">
               <!-- style="margin-left: 50%;"  -->
 
-              <div class="col-md-2 col-md-offset-2">
+              <div class="col-md-6 col-md-offset-2">
+              
+    
+              <h3>My Google Maps Demo</h3>
+
+              <div id="googleMap" style="width:100%;height:400px;"></div>
+
+<script>
+function myMap() {
+var mapProp= {
+    center:new google.maps.LatLng(51.508742,-0.120850),
+    zoom:5,
+};
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEv5OvEi1QmTdEKi-_IOjnVXaIGXs3TOA&callback=myMap"></script>
+
+
+    <!-- <div id="map"></div>
+    <script>
+      function initMap() {
+        var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
+    </script> -->
+  
+      
+
             </div>
 
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-6 col-md-offset-2">
                   <form class="form-horizontal" method="POST" action="contact.php" >
                     <div class="form-group">
                       <label for="exampleInputName2" >Name</label>
@@ -150,8 +189,8 @@ textarea.form-control{
                   <hr>
                 </div>
 
-                <div class="col-md-2 col-md-offset-2">
-            </div>
+                <!-- <div class="col-md-2 col-md-offset-2">
+            </div> -->
 
               </div>
             </div>

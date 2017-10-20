@@ -1,7 +1,18 @@
 <!DOCTYPE HTML>
+
 <?php
-session_start();
-?>
+    session_start();
+    require('../functions/Connection.php');
+    require('../functions/View.php');
+    require('../functions/Insert.php');
+
+    // echo "Check Here";
+    // echo $_SESSION['customerId'];
+
+    $customerId = $_SESSION['customerId'];
+
+    ?>
+
 <html>
     <head>
         <title>Lynx Co</title>
@@ -117,51 +128,76 @@ textarea.form-control{
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/>
         
-<section id="contact" class="content-section text-center">
+        <section id="contact" class="content-section text-center">
         <div class="contact-section">
             <div class="container">
                 <br />
-              <h2>Login/Register</h2>
-              <!-- <p>Feel free to shout us by feeling the contact form or visiting our social network sites like Fackebook,Whatsapp,Twitter.</p> -->
-              <div class="row">
-              <!-- style="margin-left: 50%;"  -->
+                <h2>User Details</h2>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2"></div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-              <div class="col-md-6 col-md-offset-2">
-              <form class="form-horizontal" method="POST" action="customer.php" >
-                    <div class="form-group">
-                      <label for="exampleInputEmail2">Email</label>
-                      <input type="email" name="emailField" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
+		<?php 
+			//Here
+                $i = 0;
+                $customerQuery = "SELECT * FROM customer where id='$customerId'";
+
+                $gettingConnection = new Connection();
+                $gettingConnection -> setConnection();
+                $connection = $gettingConnection -> getConnection();
+        
+                $viewProcess = new View();
+                $data = $viewProcess -> execute($customerQuery, $connection);
+        
+                while ($row = mysqli_fetch_assoc($data)) {
+                    $temp = 1;
+                    
+                    foreach ($row as $item) {
+                        if($temp == 1)
+                        {
+							$customerName = $row["name"];
+                            $customerEmail = $row["email"];
+                            $customerPassword = $row["password"];
+                            $temp = 0;
+                        }
+                    }
+               
+				$i++;
+		?>
+
+		 <tr>
+            <td><?php echo $customerName; ?></td>
+			<td><?php echo $customerEmail; ?></td>
+			<td><?php echo $customerPassword; ?></td>
+	        <td><a href="edit_customer.php">Edit</a></td>
+	        <td><a href="delete_customer.php">Delete</a></td>	  
+        </tr>
+
+		<?php 
+		  }
+				mysqli_close($connection); 
+				?>	<!-- Closing of the while loop -->
+
+
+ </tbody>
+</table>
+
+
+
                     </div>
-                    <div class="form-group">
-                      <label for="exampleInputSubject2">Password</label>
-                      <input type="password" name="passwordField" class="form-control" id="exampleInputSubject2" placeholder="Your Password">
-                    </div>
-                    <button type="submit" name="loginSubmit" class="btn btn-default">Login</button>
-                  </form>
-            </div>
-
-                <div class="col-md-6 col-md-offset-2">
-                <form class="form-horizontal" method="POST" action="customer.php" >
-                <div class="form-group">
-                  <label for="exampleInputEmail2">Name</label>
-                  <input type="text" name="nameRegisterField" class="form-control" id="exampleInputEmail2" placeholder="Your Name">
+                    <div class="col-md-2 col-md-offset-2"></div>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail2">Email</label>
-                  <input type="email" name="emailRegisterField" class="form-control" id="exampleInputEmail2" placeholder="Your Email">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputSubject2">Password</label>
-                  <input type="password" name="passwordRegisterField" class="form-control" id="exampleInputSubject2" placeholder="Your Password">
-                </div>
-                    <button type="submit" name="registerSubmit" class="btn btn-default">Register</button>
-                </form>
-
-                  <hr>
-                </div>
-
-
-              </div>
             </div>
         </div>
       </section>
@@ -227,76 +263,3 @@ textarea.form-control{
     </div>
     </body>
 </html>
-
-<?php
-
-require('../functions/Connection.php');
-require('../functions/Insert.php');
-require('../functions/View.php');
-
-    if (isset($_POST['loginSubmit'])){
-        echo "Login Clicked";
-
-        $c_email = $_POST['emailField'];
-        $c_password = $_POST['passwordField'];
-        $encrypt_password = md5($c_password);
-
-        $checkQuery = "SELECT * FROM customer WHERE password = '$encrypt_password' AND email = '$c_email'";        
-
-        $gettingConnection = new Connection();
-        $gettingConnection -> setConnection();
-        $connection = $gettingConnection -> getConnection();
-
-        $viewProcess = new View();
-        $data = $viewProcess -> execute($checkQuery, $connection);
-        
-
-        $checkNumber = mysqli_num_rows($data);
-        
-        if ($checkNumber == 0) {
-            echo "<script>alert('Password or email is incorrect')</script>";
-            exit();
-        }
-        
-        $getQuery = "SELECT id FROM customer where email = '$c_email'";
-
-        $gettingId = new View();
-        $dataId = $gettingId -> execute($getQuery, $connection);
-
-        $row = mysqli_fetch_assoc($dataId);
-        // echo "Row is: <br />";
-        // print_r($row);
-        $id = $row["id"];
-        // echo "Id is: " . $id . "<br />";
-
-        $_SESSION['customerId'] = $id;
-
-        
-
-        echo "<script>alert('Logged in Successfully')</script>";
-        echo "<script>window.open('../customer/dashboard.php', '_self')</script>";
-        mysqli_close($connection);
-
-
-
-    }else if(isset($_POST['registerSubmit'])){
-        echo "Register Clicked";
-
-        $registerName = $_POST['nameRegisterField'];
-        $registerEmail = $_POST['emailRegisterField'];
-        $registerPassword = $_POST['passwordRegisterField'];
-        $encrypt_password = md5($registerPassword);
-
-        $insertQuery = "INSERT INTO customer (name, email, password)
-        VALUES ('$registerName', '$registerEmail', '$encrypt_password')";
-
-        $gettingConnection = new Connection();
-        $gettingConnection -> setConnection();
-        $connection = $gettingConnection -> getConnection();
-
-        $insertProcess = new Insert();
-        $insertProcess -> execute($insertQuery, $connection);
-
-    }
-
-?>
