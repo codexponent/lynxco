@@ -1,18 +1,18 @@
 <!DOCTYPE HTML>
-
 <?php
     session_start();
     require('../functions/Connection.php');
     require('../functions/View.php');
     require('../functions/Insert.php');
 
+    require('../functions/PdfConversion.php');
+
     // echo "Check Here";
     // echo $_SESSION['customerId'];
-
+    // require_once('../vendor/tcpdf/tcpdf.php');
     $customerId = $_SESSION['customerId'];
-
-    ?>
-
+    ob_start();
+?>
 <html>
     <head>
         <title>Lynx Co</title>
@@ -35,7 +35,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-    <style>
+<style>
 
 body{
 	width:100%;
@@ -144,6 +144,7 @@ textarea.form-control{
                                 <th>Password</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
+                                <th>Report</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,20 +187,23 @@ textarea.form-control{
 
 		<?php 
 		  }
-				mysqli_close($connection); 
-				?>	<!-- Closing of the while loop -->
+			mysqli_close($connection); 
+		?>	<!-- Closing of the while loop -->
 
 
  </tbody>
 </table>
-
-
 
                     </div>
                     <div class="col-md-2 col-md-offset-2"></div>
                 </div>
             </div>
         </div>
+
+          <form method="POST" action="dashboard.php" >
+            <input type="submit" name="submit_report" value="Report" class="btn btn-default" />
+          </form>
+        
       </section>
 
         
@@ -263,3 +267,82 @@ textarea.form-control{
     </div>
     </body>
 </html>
+<?php
+    if (isset($_POST['submit_report'])){
+        // create new PDF document
+        // create new PDF document
+// $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// // set document information
+// $pdf->SetCreator(PDF_CREATOR);
+// $pdf->SetAuthor('Nicola Asuni');
+// $pdf->SetTitle('TCPDF Example 002');
+// $pdf->SetSubject('TCPDF Tutorial');
+// $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// // remove default header/footer
+// $pdf->setPrintHeader(false);
+// $pdf->setPrintFooter(false);
+
+// // set default monospaced font
+// $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// // set margins
+// $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+
+// // set auto page breaks
+// $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// // set image scale factor
+// $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// // set some language-dependent strings (optional)
+// if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+//     require_once(dirname(__FILE__).'/lang/eng.php');
+//     $pdf->setLanguageArray($l);
+// }
+
+// // ---------------------------------------------------------
+
+// // set font
+// $pdf->SetFont('times', 'BI', 20);
+
+// // add a page
+// $pdf->AddPage();
+
+// // set some text to print
+// $txt = <<<EOD
+// TCPDF Example 002
+// Default page header and footer are disabled using setPrintHeader() and setPrintFooter() methods.
+// EOD;
+
+// // print a block of text using Write()
+// $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
+
+// // ---------------------------------------------------------
+
+// //Close and output PDF document
+
+//         ob_end_clean();
+//         ob_start();
+//         $pdf->Output('example_002.pdf', 'I');
+//         ob_end_flush();
+//         exit;
+//     }
+    // echo "Button is clicked";
+    // ob_end_clean(); //    the buffer and never prints or returns anything.
+    // ob_start(); 
+    // ini_set("session.auto_start", 0);
+    $pdf = new PdfConversion();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial','B',16);
+    $datum = $customerName . ' ' . $customerEmail . ' ' . $customerPassword;
+    $pdf->Cell(40,10,$datum);
+    ob_end_clean();
+    ob_start();
+    $pdf->Output();
+    ob_end_flush();
+    exit;
+    }
+    
+?>
