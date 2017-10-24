@@ -21,7 +21,6 @@ class Product{
 
     // read products
     public function read(){
-    
        // select all query
        $query = "SELECT
                    c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
@@ -32,22 +31,281 @@ class Product{
                            ON p.category_id = c.id
                ORDER BY
                    p.created DESC";
+       $returnedData = mysqli_query($this->conn, $query);
+       return $returnedData;
+    }
+
+    // create product
+    public function create(){
     
+       // query to insert record
+       $query = "INSERT INTO
+                   " . $this->table_name . "
+               SET
+                   name=" . $this->name . ",
+                   price=" . $this->price . ",
+                   description=" . $this->description . ",
+                   category_id=" . $this->category_id . ",
+                   created=" . $this->created;
+    
+       // prepare query
+        //    $stmt = $this->conn->prepare($query);
+    
+       // sanitize
+    //    $this->name=htmlspecialchars(strip_tags($this->name));
+    //    $this->price=htmlspecialchars(strip_tags($this->price));
+    //    $this->description=htmlspecialchars(strip_tags($this->description));
+    //    $this->category_id=htmlspecialchars(strip_tags($this->category_id));
+    //    $this->created=htmlspecialchars(strip_tags($this->created));
+    
+       // bind values
+    //    $stmt->bindParam(":name", $this->name);
+    //    $stmt->bindParam(":price", $this->price);
+    //    $stmt->bindParam(":description", $this->description);
+    //    $stmt->bindParam(":category_id", $this->category_id);
+    //    $stmt->bindParam(":created", $this->created);
+    
+       mysqli_query($this->conn, $query);
+       mysqli_close($this->conn);
+
+    //    // execute query
+    //    if($stmt->execute()){
+    //        return true;
+    //    }else{
+    //        return false;
+    //    }
+    }
+
+    public function readOne(){
+        
+           // query to read single record
+        //    $query = "SELECT
+        //                c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
+        //            FROM
+        //                " . $this->table_name . " p
+        //                LEFT JOIN
+        //                    categories c
+        //                        ON p.category_id = c.id
+        //            WHERE
+        //                p.id = ?
+        //            LIMIT
+        //                0,1";
+        
+        //    // prepare query statement
+        //    $stmt = $this->conn->prepare( $query );
+        
+        //    // bind id of product to be updated
+        //    $stmt->bindParam(1, $this->id);
+        
+        //    // execute query
+        //    $stmt->execute();
+        
+        //    // get retrieved row
+        //    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $query = "SELECT
+                c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
+            FROM
+                " . $this->table_name . " p
+                LEFT JOIN
+                    categories c
+                        ON p.category_id = c.id
+            WHERE
+                p.id = " . $this->id ."
+            LIMIT
+                0,1";
+
+
+        // echo "Query <br />";
+        // echo $query;
+
+        // prepare query statement
+        // $stmt = $this->conn->prepare( $query );
+
+        // // bind id of product to be updated
+        // $stmt->bindParam(1, $this->id);
+
+        // // execute query
+        // $stmt->execute();
+
+        // // get retrieved row
+        // $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $result = mysqli_query($this->conn, $query);
+
+        $row = mysqli_fetch_assoc($result);
+        
+        // set values to object properties
+        $this->name = $row['name'];
+        $this->price = $row['price'];
+        $this->description = $row['description'];
+        $this->category_id = $row['category_id'];
+        $this->category_name = $row['category_name'];
+
+       }
+
+
+       // update the product
+    public function update(){
+    
+       // update query
+       $query = "UPDATE
+                   " . $this->table_name . "
+               SET
+                   name = :name,
+                   price = :price,
+                   description = :description,
+                   category_id = :category_id
+               WHERE
+                   id = :id";
+    
+        mysqli_query($this->conn, $query);
+        mysqli_close($this->conn);
+
        // prepare query statement
     //    $stmt = $this->conn->prepare($query);
     
-    //    // execute query
+    //    // sanitize
+    //    $this->name=htmlspecialchars(strip_tags($this->name));
+    //    $this->price=htmlspecialchars(strip_tags($this->price));
+    //    $this->description=htmlspecialchars(strip_tags($this->description));
+    //    $this->category_id=htmlspecialchars(strip_tags($this->category_id));
+    //    $this->id=htmlspecialchars(strip_tags($this->id));
+    
+    //    // bind new values
+    //    $stmt->bindParam(':name', $this->name);
+    //    $stmt->bindParam(':price', $this->price);
+    //    $stmt->bindParam(':description', $this->description);
+    //    $stmt->bindParam(':category_id', $this->category_id);
+    //    $stmt->bindParam(':id', $this->id);
+    
+       // // execute the query
+    //    if($stmt->execute()){
+    //        return true;
+    //    }else{
+    //        return false;
+    //    }
+    }
+
+
+    // delete the product
+    public function delete(){
+    
+        $tempId = htmlspecialchars(strip_tags($this->id));
+
+       // delete query
+       $query = "DELETE FROM " . $this->table_name . " WHERE id = " . $tempId;
+    
+       mysqli_query($this->conn, $query);
+       mysqli_close($this->conn);
+
+       // prepare query
+       // $stmt = $this->conn->prepare($query);
+    
+       // sanitize
+    //    $this->id=htmlspecialchars(strip_tags($this->id));
+    
+       // // bind id of record to delete
+    //    $stmt->bindParam(1, $this->id);
+    
+       // execute query
+    //    if($stmt->execute()){
+    //        return true;
+    //    }
+    
+    //    return false;
+        
+   }
+
+   // search products
+    public function search($keywords){
+    
+        //sanitize
+        $keywords=htmlspecialchars(strip_tags($keywords));
+        $keywords = "%{$keywords}%";
+
+       // select all query
+       $query = "SELECT
+                   c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
+               FROM
+                   " . $this->table_name . " p
+                   LEFT JOIN
+                       categories c
+                           ON p.category_id = c.id
+               WHERE
+                   p.name LIKE '" . $keywords . "' OR p.description LIKE '" . $keywords ."' OR c.name LIKE '" . $keywords ."'
+               ORDER BY
+                   p.created DESC";
+    
+        // echo "Query";
+        // echo $query;
+
+       // // prepare query statement
+       //$stmt = $this->conn->prepare($query);
+    
+       // // sanitize
+    //    $keywords=htmlspecialchars(strip_tags($keywords));
+    //    $keywords = "%{$keywords}%";
+    
+    //    // bind
+    //    $stmt->bindParam(1, $keywords);
+    //    $stmt->bindParam(2, $keywords);
+    //    $stmt->bindParam(3, $keywords);
+    
+       // // execute query
     //    $stmt->execute();
+    
+       // return $stmt;
 
-        //return $stmt;
+        $stmt = mysqli_query($this->conn, $query);
 
-       $returnedData = mysqli_query($this->conn, $query);
+       return $stmt;
+    //    mysqli_close($this->conn);
+   }
 
-        // echo "Check Here<br />";
-        // print_r($returnedData);
 
-       return $returnedData;
+   // read products with pagination
+    public function readPaging($from_record_num, $records_per_page){
+    
+       // select query
+       $query = "SELECT
+                   c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
+               FROM
+                   " . $this->table_name . " p
+                   LEFT JOIN
+                       categories c
+                           ON p.category_id = c.id
+               ORDER BY p.created DESC
+               LIMIT " . $from_record_num . ", " . $records_per_page;
+    
+       // prepare query statement
+    //    $stmt = $this->conn->prepare( $query );
+    
+       // bind variable values
+    //    $stmt->bindParam(1, $from_record_num, PDO::PARAM_INT);
+    //    $stmt->bindParam(2, $records_per_page, PDO::PARAM_INT);
+    
+       // execute query
+    //    $stmt->execute();
+    
+       // return values from database
+    //    return $stmt;
+        $stmt = mysqli_query($this ->conn, $query);
+        return $stmt;
+   }
 
+   // used for paging products
+    public function count(){
+        $query = "SELECT COUNT(*) as total_rows FROM " . $this->table_name . "";
+ 
+        // $stmt = $this->conn->prepare( $query );
+        // $stmt->execute();
+        // $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+        $stmt = mysqli_query($this->conn, $query);
+        $row = mysqli_fetch_assoc($stmt);
+
+        return $row['total_rows'];
     }
 
 }
