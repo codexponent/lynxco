@@ -42,11 +42,21 @@ class Product{
        $query = "INSERT INTO
                    " . $this->table_name . "
                SET
-                   name=" . $this->name . ",
-                   price=" . $this->price . ",
-                   description=" . $this->description . ",
-                   category_id=" . $this->category_id . ",
-                   created=" . $this->created;
+                   name='" . $this->name . "',
+                   price='" . $this->price . "',
+                   description='" . $this->description . "',
+                   category_id='" . $this->category_id . "',
+                   created='" . $this->created . "'";
+    // $query = "INSERT INTO products VALUES (" . 
+    // $this->name . "," . 
+    // $this->description . "," . 
+    // $this->price . "," . 
+    // $this->category_id . "," . 
+    // $this->created . ", 10:88:97)";
+
+    mysqli_query($this->conn, $query);
+    mysqli_close($this->conn);
+        return true;
     
        // prepare query
         //    $stmt = $this->conn->prepare($query);
@@ -67,6 +77,7 @@ class Product{
     
        mysqli_query($this->conn, $query);
        mysqli_close($this->conn);
+        return true;
 
     //    // execute query
     //    if($stmt->execute()){

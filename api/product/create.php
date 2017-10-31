@@ -23,9 +23,47 @@ $database->setConnection();
 $db = $database->getConnection();
  
 $product = new Product($db);
- 
+
 // get posted data
-$data = json_decode(file_get_contents("php://input"));
+// $data = json_decode(file_get_contents("php://input"));
+$postdata = file_get_contents("php://input");
+// $postdata = file_get_contents("http://www.google.co.uk");
+echo $postdata;
+// echo 'The data type of postdata is '.gettype($postdata);
+// echo $postdata;
+
+
+// $request = json_decode($postdata, FALSE);
+$data = json_decode($postdata);
+print_r($data);
+// echo 'The data type is or request is '.gettype($request);
+// $request = json_decode('{"name":"Sulabh", "description":"Hey", "price":"52", "category_id":"1"}');
+// '{"name":"Sulabh", "description":"Hey", "price":"52", "category_id":"1"}'
+// if ($request == true){
+//     echo "true";
+// }else{
+//     echo "False";
+// }
+
+// $name = $request->name;
+// $price = $request->price;
+// $description = $request->description;
+// $category_id = $request->category_id;
+
+// echo "Check Here";
+// echo "Name";
+// echo $name;
+// echo "Price";
+// echo $price;
+// echo "Description";
+// echo $description;
+// echo "Category";
+// echo $category_id;
+
+// echo "Test Here <br />";
+// echo "data<br />";
+// echo $data->name;
+// print_r($data);
  
 // set product property values
 $product->name = $data->name;
@@ -35,6 +73,9 @@ $product->category_id = $data->category_id;
 $product->created = date('Y-m-d H:i:s');
  
 // create the product
+
+    // echo $product->create();
+
 if($product->create()){
     echo '{';
         echo '"message": "Product was created."';
