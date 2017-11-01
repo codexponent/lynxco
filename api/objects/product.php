@@ -163,15 +163,29 @@ class Product{
        $query = "UPDATE
                    " . $this->table_name . "
                SET
-                   name = :name,
-                   price = :price,
-                   description = :description,
-                   category_id = :category_id
+                    name='" . $this->name . "',
+                    price='" . $this->price . "',
+                    description='" . $this->description . "',
+                    category_id='" . $this->category_id . "'
                WHERE
-                   id = :id";
+                   id = '" . $this->id . "'";
+
+            echo "Query";
+            echo $query;
+
+             // $query = "INSERT INTO
+            //        " . $this->table_name . "
+            //    SET
+                //    name='" . $this->name . "',
+                //    price='" . $this->price . "',
+                //    description='" . $this->description . "',
+                //    category_id='" . $this->category_id . "',
+            //        created='" . $this->created . "'";
+
     
         mysqli_query($this->conn, $query);
         mysqli_close($this->conn);
+        return true;
 
        // prepare query statement
     //    $stmt = $this->conn->prepare($query);

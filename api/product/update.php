@@ -25,11 +25,22 @@ $db = $database->getConnection();
 $product = new Product($db);
  
 // get id of product to be edited
-$data = json_decode(file_get_contents("php://input"));
+
+// $data = json_decode(file_get_contents("php://input"));
+
+$postdata = file_get_contents("php://input");
+// $postdata = file_get_contents("http://www.google.co.uk");
+echo $postdata;
+// echo 'The data type of postdata is '.gettype($postdata);
+// echo $postdata;
+
+// $request = json_decode($postdata, FALSE);
+$data = json_decode($postdata);
+// echo $data;
  
 // set ID property of product to be edited
 $product->id = $data->id;
- 
+
 // set product property values
 $product->name = $data->name;
 $product->price = $data->price;
