@@ -88,24 +88,24 @@ textarea.form-control{
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation -->
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" href="index.php">Home</a>
-                        <a class="mdl-navigation__link" href="products.php">Products</a>
+                        <a class="mdl-navigation__link" href="../index.php">Home</a>
+                        <a class="mdl-navigation__link" href="../products.php">Products</a>
                         <a class="mdl-navigation__link" href="#">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
-                        <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                        <a class="mdl-navigation__link" href="customer.php">Customer</a>
+                        <a class="mdl-navigation__link" href="../about.php">About</a>
+                        <a class="mdl-navigation__link" href="../contact.php">Contact</a>
                     </nav>
                     </div>
                 </header>
                 <div class="mdl-layout__drawer">
                     <span class="mdl-layout-title">Lynx Co</span>
                     <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="index.php">Home</a>
-                        <a class="mdl-navigation__link" href="products.php">Products</a>
+                    <a class="mdl-navigation__link" href="../index.php">Home</a>
+                        <a class="mdl-navigation__link" href="../products.php">Products</a>
                         <a class="mdl-navigation__link" href="#">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
-                        <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                        <a class="mdl-navigation__link" href="customer.php">Customer</a>
+                        <a class="mdl-navigation__link" href="../about.php">About</a>
+                        <a class="mdl-navigation__link" href="../contact.php">Contact</a>
                     </nav>
                 </div>   
         </div>
@@ -236,7 +236,21 @@ require('../functions/View.php');
         $checkNumber = mysqli_num_rows($data);
         
         if ($checkNumber == 0) {
-            echo "<script>alert('Password or email is incorrect')</script>";
+
+            // $checkQuerys = "SELECT * FROM admin";
+
+            // $viewProcess = new View();
+            // $datas = $viewProcess -> execute($checkQuerys, $connection);
+
+            // $row = mysqli_fetch_assoc($datas);
+            
+            // $emails = $row["email"];
+            // $passwo = $row["password"];
+
+            // echo "Email";
+            // echo $emails;
+            // echo $passwo;
+            echo "<script>alert('Email or Password is incorrect')</script>";
             exit();
         }
         
@@ -253,7 +267,7 @@ require('../functions/View.php');
 
         $_SESSION['id'] = $id;
         echo "<script>alert('Admin Logged in Successfully')</script>";
-        echo "<script>window.open('../admin/admin.php', '_self')</script>";
+        echo "<script>window.open('../admin/product/view_products.php', '_self')</script>";
         mysqli_close($connection);
 
 

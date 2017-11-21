@@ -91,24 +91,24 @@ textarea.form-control{
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation -->
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" href="index.php">Home</a>
-                        <a class="mdl-navigation__link" href="products.php">Products</a>
+                        <a class="mdl-navigation__link" href="../index.php">Home</a>
+                        <a class="mdl-navigation__link" href="../products.php">Products</a>
                         <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
-                        <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                        <a class="mdl-navigation__link" href="#">Customer</a>
+                        <a class="mdl-navigation__link" href="../about.php">About</a>
+                        <a class="mdl-navigation__link" href="../contact.php">Contact</a>
                     </nav>
                     </div>
                 </header>
                 <div class="mdl-layout__drawer">
                     <span class="mdl-layout-title">Lynx Co</span>
                     <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="index.php">Home</a>
-                        <a class="mdl-navigation__link" href="products.php">Products</a>
+                    <a class="mdl-navigation__link" href="../index.php">Home</a>
+                        <a class="mdl-navigation__link" href="../products.php">Products</a>
                         <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
-                        <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                        <a class="mdl-navigation__link" href="#">Customer</a>
+                        <a class="mdl-navigation__link" href="../about.php">About</a>
+                        <a class="mdl-navigation__link" href="../contact.php">Contact</a>
                     </nav>
                 </div>   
         </div>
@@ -233,6 +233,8 @@ textarea.form-control{
 require('../functions/Connection.php');
 require('../functions/Insert.php');
 require('../functions/View.php');
+require_once('../functions/RegisterMailSender.php');
+
 
     if (isset($_POST['loginSubmit'])){
         echo "Login Clicked";
@@ -280,7 +282,6 @@ require('../functions/View.php');
 
 
     }else if(isset($_POST['registerSubmit'])){
-        echo "Register Clicked";
 
         $registerName = $_POST['nameRegisterField'];
         $registerEmail = $_POST['emailRegisterField'];
@@ -296,6 +297,14 @@ require('../functions/View.php');
 
         $insertProcess = new Insert();
         $insertProcess -> execute($insertQuery, $connection);
+
+        $emailProcess = new RegisterMailSender($email, $name, $password);
+        $emailProcess -> setName($registerName);
+        $emailProcess -> setEmail($registerEmail);
+        $emailProcess -> setPassword($registerPassword);
+        $emailProcess -> sendMail();
+        echo "<script>alert('Registered Successfully, Please Check your Email for more Info')</script>";
+
 
     }
 

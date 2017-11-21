@@ -3,7 +3,7 @@
     class View{
 
         public function execute($queries, mysqli $connection){
-            global $connection;
+            //global $connection;
             
             $returnedData = mysqli_query($connection, $queries);
 

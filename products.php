@@ -1,38 +1,15 @@
 <!DOCTYPE HTML>
-
 <?php
     session_start();
-    require('../functions/Connection.php');
-    require('../functions/View.php');
-    require('../functions/Insert.php');
-    require('../functions/Update.php');
+    require('functions/Connection.php');
+    require('functions/View.php');
+    require('functions/Insert.php');
+
+    // echo "Check Here";
+    // echo $_SESSION['customerId'];
+    // require_once('../vendor/tcpdf/tcpdf.php');
     $customerId = $_SESSION['customerId'];
-
-    $customerQuery = "SELECT * FROM customer where id='$customerId'";
-    
-    $gettingConnection = new Connection();
-    $gettingConnection -> setConnection();
-    $connection = $gettingConnection -> getConnection();
-
-    $viewProcess = new View();
-    $data = $viewProcess -> execute($customerQuery, $connection);
-
-    while ($row = mysqli_fetch_assoc($data)) {
-        $temp = 1;
-        
-        foreach ($row as $item) {
-            if($temp == 1)
-            {
-                $customerName = $row["name"];
-                $customerEmail = $row["email"];
-                $customerPassword = $row["password"];
-                $temp = 0;
-            }
-        }
-    }
-
-    ?>
-
+?>
 <html>
     <head>
         <title>Lynx Co</title>
@@ -55,7 +32,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-    <style>
+<style>
+
+table, tr, th, td, tbody{
+    border: 1px solid white;
+}
 
 body{
 	width:100%;
@@ -96,7 +77,7 @@ textarea.form-control{
 }
 
     .demo-layout-transparent {
-        background: url('../img/contactImage.jpg') center / cover;
+        background: url('img/productImage.jpg') center / cover;
         }
         .demo-layout-transparent .mdl-layout__header,
         .demo-layout-transparent .mdl-layout__drawer-button {
@@ -117,17 +98,17 @@ textarea.form-control{
                 <header class="mdl-layout__header mdl-layout__header--transparent">
                     <div class="mdl-layout__header-row">
                     <!-- Title -->
-                    <span class="mdl-layout-title"><img src="../img/lynx.png" height="55" width="60" /></span>
+                    <span class="mdl-layout-title"><img src="img/lynx.png" height="55" width="60" /></span>
                     <!-- Add spacer, to align navigation to the right -->
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation -->
                     <nav class="mdl-navigation">
                         <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
+                        <a class="mdl-navigation__link" href="customer/dashboard.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                        <a class="mdl-navigation__link" href="contact.php">Contact</a>
+                        <a class="mdl-navigation__link" href="customer/customerLogout.php">Logout</a>
                     </nav>
                     </div>
                 </header>
@@ -136,10 +117,10 @@ textarea.form-control{
                     <nav class="mdl-navigation">
                     <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
+                        <a class="mdl-navigation__link" href="customer/dashboard.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                        <a class="mdl-navigation__link" href="contact.php">Contact</a>
+                        <a class="mdl-navigation__link" href="customer/customerLogout.php">Logout</a>
                     </nav>
                 </div>   
         </div>
@@ -148,44 +129,83 @@ textarea.form-control{
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/>
         
-        <section id="contact" class="content-section text-center">
-        <div class="contact-section">
-            <div class="container">
-                <br />
-                <h2>User Details</h2>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-2"></div>
-                    <div class="col-md-8 col-md-offset-2">
+    <style>
 
+    #searchit{
+        width: 100%;
+    }
 
-                    <form action="edit_customer.php" method="post" class="mui-form" >	<!-- enctype for various form's of data -->
-                        <div class="mui-textfield mui-textfield--float-label">
-                            <input type="text" name="customer_id" value="<?php echo $customerId; ?>" hidden >
-                            <label>Product ID:</label>
-                        </div>
-                        <div class="mui-textfield mui-textfield--float-label">
-                            <input type="text" name="customer_name" value="<?php echo $customerName; ?>" required>
-                            <label>Name</label>
-                        </div>
-                        <div class="mui-textfield mui-textfield--float-label">
-                            <input type="text" name="customer_email" value="<?php echo $customerEmail; ?>" required>
-                            <label>Email</label>
-                        </div>
-                        <div class="mui-textfield mui-textfield--float-label">
-                            <input type="password" name="customer_password" required>
-                            <label>Password</label>
-                        </div>
-                            <button type="submit" name="update_post" class="mui-btn mui-btn--raised">Submit</button>
+    #searchitbutton{
+        width: 100%;
+    }
+
+    #titleHeader{
+        text-align: center;
+    }
+
+    </style>
+
+        <!-- <section id="contact" class="content-section text-center">
+            <div class="contact-section"> -->
+                <div class="container">
+                    <br />
+                    <h4 id="titleHeader">Product </h4>
+
+                    <form action="search.php">
+                        <input type="text"  name="searchName" id="searchit" />
+                        <input type="submit" id="searchitbutton" namme="searchClicked" />
                     </form>
+                    <br />
+                    <br />
 
+                    <div class="row">
+                        
+                            <?php 
+                                $i = 0;
+                                $customerQuery = "SELECT * FROM product";
 
-
+                                $gettingConnection = new Connection();
+                                $gettingConnection -> setConnection();
+                                $connection = $gettingConnection -> getConnection();
+                        
+                                $viewProcess = new View();
+                                $data = $viewProcess -> execute($customerQuery, $connection);
+                        
+                                while ($row = mysqli_fetch_assoc($data)) {
+                                    $temp = 1;
+                                    
+                                    foreach ($row as $item) {
+                                        if($temp == 1)
+                                        {
+                                            $productId = $row["productId"];
+                                            $productImage = $row["productImage"];
+                                            $productDescription = $row["productDescription"];
+                                            $temp = 0;
+                                        }
+                                    }
+                            
+                                $i++;
+                            ?>
+                            <div class="col-md-6 col-md-offset-6">
+                                <img src="admin/product/product_images/<?php echo $productImage; ?>" height="500" width="500" />
+                            </div>
+                            <div class="col-md-6 col-md-offset-6">
+                                <p><?php echo $productDescription; ?></p>
+                                <a href="functions/OOTest.php?productValue=<?php echo $productId; ?>" >Details</a>
+                                <!-- <a href="customer/insert_cart.php?productValue=<?php echo $productId; ?>">Add to Cart</a> -->
+                                <form action="products.php" method="POST" >
+                                    <button type="submit" name="submitCart" value="<?php echo $productId; ?>"  >Add to Cart</button>
+                                </form>
+                            </div>
+                            <?php 
+                                    }
+                                    // mysqli_close($connection); 
+                                ?>	<!-- Closing of the while loop -->
+                            
                     </div>
-                    <div class="col-md-2 col-md-offset-2"></div>
                 </div>
-            </div>
-        </div>
-      </section>
+            <!-- </div>
+        </section> -->
 
         
 <br /><br />
@@ -250,26 +270,29 @@ textarea.form-control{
 </html>
 
 <?php
-	if (isset($_POST['update_post']) ) {
 
-		$customerIdN = $_POST['customer_id'];
-		$customerNameN = $_POST['customer_name'];
-        $customerEmailN = $_POST['customer_email'];
-        $customerPasswordN = $_POST['customer_password'];
-        $encryptPassword = md5($customerPasswordN);
+if (isset($_POST['submitCart'])){
 
-		$updateQuery = "UPDATE customer SET 
-		name = '$customerNameN', 
-		email = '$customerEmailN', 
-		password = '$encryptPassword' 
-		WHERE 
-		id = '$customerIdN'";	
+    echo "<script>alert('Added to Cart')</script>";
 
-        $updateProcess = new Update();
-        $updateProcess -> execute($updateQuery, $connection);
-        echo "<script>window.history.back();</script>";
-        header("Location: dashboard.php");  
-	}
-	
+    $retrievedProductId = $_POST['submitCart'];
+    // echo "Value is";
+    // echo $retrievedProductId;
+    // echo 'Customer id is: ';
+    // echo $customerId;
+
+    $insertProducts = "INSERT INTO cart (customerId, productId) VALUES('$customerId', '$retrievedProductId')";
+    // echo 'Query';
+    // echo $insertProducts;
+
+    $gettingConnections = new Connection();
+    $gettingConnections -> setConnection();
+    $connections = $gettingConnection -> getConnection();
+
+    $insertProcess = new Insert();
+    $insertProcess -> execute("INSERT INTO cart (customerId, productId) VALUES('$customerId', '$retrievedProductId')", $connections);
+    
+
+}
 
 ?>

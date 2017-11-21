@@ -46,8 +46,8 @@
                     <nav class="mdl-navigation">
                         <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="admin/login/admin_login.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer_login.php">Customer</a>
+                        <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
+                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="#">About</a>
                         <a class="mdl-navigation__link" href="contact.php">Contact</a>
                     </nav>
@@ -58,8 +58,8 @@
                     <nav class="mdl-navigation">
                     <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="admin/login/admin_login.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer_login.php">Customer</a>
+                        <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
+                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="#">About</a>
                         <a class="mdl-navigation__link" href="contact.php">Contact</a>
                     </nav>

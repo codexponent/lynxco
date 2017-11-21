@@ -6,10 +6,14 @@
 
 	if(isset($_SESSION['customerId'])){
 
-		$customerId = $_SESSION['customerId'];
-		$deleteQuery = "DELETE FROM customer WHERE id = '$customerId'";
+        $customerId = $_SESSION['customerId'];
+        $productId = $_GET['productValue'];
+		$deleteQuery = "DELETE FROM cart WHERE customerId = '$customerId' AND productId = '$productId'";
         // echo "<script>window.history.back();</script>";
         // echo "<script>window.open('../index.php', '_self')</script>";
+
+        echo "Query Is: ";
+        echo $deleteQuery;
 
         $gettingConnection = new Connection();
         $gettingConnection -> setConnection();
@@ -18,7 +22,7 @@
         $deleteProcess = new Delete();
         $data = $deleteProcess -> execute($deleteQuery, $connection);        
 
-        header("Location: ../index.php");  
+        header("Location: cart.php");  
 
 	}
 

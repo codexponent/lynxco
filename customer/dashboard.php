@@ -37,6 +37,10 @@
 
 <style>
 
+table, tr, th, td, tbody{
+    border: 1px solid white;
+}
+
 body{
 	width:100%;
 	height:100%;
@@ -102,24 +106,24 @@ textarea.form-control{
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation -->
                     <nav class="mdl-navigation">
-                        <a class="mdl-navigation__link" href="index.php">Home</a>
-                        <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
-                        <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                        <a class="mdl-navigation__link" href="../index.php">Home</a>
+                        <a class="mdl-navigation__link" href="../products.php">Products</a>
+                        <a class="mdl-navigation__link" href="#">Customer</a>
+                        <a class="mdl-navigation__link" href="../about.php">About</a>
+                        <a class="mdl-navigation__link" href="../contact.php">Contact</a>
+                        <a class="mdl-navigation__link" href="customerLogout.php">Logout</a>
                     </nav>
                     </div>
                 </header>
                 <div class="mdl-layout__drawer">
                     <span class="mdl-layout-title">Lynx Co</span>
                     <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="index.php">Home</a>
-                        <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
-                        <a class="mdl-navigation__link" href="about.php">About</a>
-                        <a class="mdl-navigation__link" href="#">Contact</a>
+                    <a class="mdl-navigation__link" href="../index.php">Home</a>
+                        <a class="mdl-navigation__link" href="../products.php">Products</a>
+                        <a class="mdl-navigation__link" href="#">Customer</a>
+                        <a class="mdl-navigation__link" href="../about.php">About</a>
+                        <a class="mdl-navigation__link" href="../contact.php">Contact</a>
+                        <a class="mdl-navigation__link" href="customerLogout.php">Logout</a>
                     </nav>
                 </div>   
         </div>
@@ -136,7 +140,7 @@ textarea.form-control{
                 <div class="row">
                     <div class="col-md-2 col-md-offset-2"></div>
                     <div class="col-md-8 col-md-offset-2">
-                        <table>
+                        <table >
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -144,7 +148,7 @@ textarea.form-control{
                                 <th>Password</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-                                <th>Report</th>
+                                <th>Cart</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -172,8 +176,7 @@ textarea.form-control{
                             $customerPassword = $row["password"];
                             $temp = 0;
                         }
-                    }
-               
+                    }               
 				$i++;
 		?>
 
@@ -183,6 +186,7 @@ textarea.form-control{
 			<td><?php echo $customerPassword; ?></td>
 	        <td><a href="edit_customer.php">Edit</a></td>
 	        <td><a href="delete_customer.php">Delete</a></td>	  
+            <td><a href="cart.php">Cart</a></td>	  
         </tr>
 
 		<?php 
@@ -336,7 +340,10 @@ textarea.form-control{
     $pdf = new PdfConversion();
     $pdf->AddPage();
     $pdf->SetFont('Arial','B',16);
-    $datum = $customerName . ' ' . $customerEmail . ' ' . $customerPassword;
+
+    $datum = "Customer Name: " . $customerName . " Customer Email: " . $customerEmail;
+
+    // $datum = $customerName . ' ' . $customerEmail . ' ' . $customerPassword;
     $pdf->Cell(40,10,$datum);
     ob_end_clean();
     ob_start();

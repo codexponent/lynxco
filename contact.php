@@ -90,7 +90,7 @@ textarea.form-control{
                     <nav class="mdl-navigation">
                         <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="admin/login/admin_login.php">Admin</a>
+                        <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
                         <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
                         <a class="mdl-navigation__link" href="#">Contact</a>
@@ -102,7 +102,7 @@ textarea.form-control{
                     <nav class="mdl-navigation">
                     <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="admin/login/admin_login.php">Admin</a>
+                        <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
                         <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
                         <a class="mdl-navigation__link" href="#">Contact</a>
@@ -126,7 +126,7 @@ textarea.form-control{
               <div class="col-md-6 col-md-offset-2">
               
     
-              <h3>My Google Maps Demo</h3>
+              <h3>Our Location</h3>
 
               <div id="googleMap" style="width:100%;height:400px;"></div>
 
@@ -267,14 +267,24 @@ if (isset($_POST['submit'])){
     $email = $_POST['emailField'];
     $name = $_POST['nameField'];
     $subject = $_POST['subjectField'];
-    $description = $_POST['messageField'];
+    $descriptions = $_POST['messageField'];
 
-    $emailProcess = new MailSender($email, $name, $subject, $description);
-    $emailProcess -> setEmail($email);
-    $emailProcess -> setName($name);
-    $emailProcess -> setSubject($subject);
-    $emailProcess -> setDescription($description);
-    $emailProcess -> sendMail();
+    $description = strip_tags($descriptions);
+
+    // $email = filter_var($email,FILTER_SANITIZE_EMAIL);
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)){ 
+        
+        echo "<script>alert('Email is incorrect')</script>";
+        
+        }else{
+            $emailProcess = new MailSender($email, $name, $subject, $description);
+            $emailProcess -> setEmail($email);
+            $emailProcess -> setName($name);
+            $emailProcess -> setSubject($subject);
+            $emailProcess -> setDescription($description);
+            $emailProcess -> sendMail();
+        }
 
 }
 

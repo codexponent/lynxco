@@ -48,7 +48,7 @@
                         <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
                             <li class="mdl-menu__item">About</li>
                             <li class="mdl-menu__item">Contact</li>
-                            <a href="login/admin_logout.php" ><li class="mdl-menu__item">Logout</li></a>
+                            <a href="../adminLogout.php" ><li class="mdl-menu__item">Logout</li></a>
                         </ul>
                         </div>
                     </header>
@@ -67,13 +67,12 @@
                     <span class="visuallyhidden">Accounts</span>
                     </button>
                     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                    <a href="../login/admin_logout.php" ><li class="mdl-menu__item">Logout</li></a>
+                    <a href="../adminLogout.php" ><li class="mdl-menu__item">Logout</li></a>
                     </ul>
                 </div>
                 </header>
                 <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
                     <a href="insert_products.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>Insert Products</a>
-                    <a href="../login/admin_logout.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">backspace</i>Logout</a>
                     <div class="mdl-layout-spacer"></div>
                 </nav>
       </div>

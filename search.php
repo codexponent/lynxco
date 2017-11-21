@@ -1,4 +1,14 @@
 <!DOCTYPE HTML>
+<?php
+    session_start();
+    require('functions/Connection.php');
+    require('functions/View.php');
+
+    // echo "Check Here";
+    // echo $_SESSION['customerId'];
+    // require_once('../vendor/tcpdf/tcpdf.php');
+    // $customerId = $_SESSION['customerId'];
+?>
 <html>
     <head>
         <title>Lynx Co</title>
@@ -9,16 +19,64 @@
         <link href="//cdn.muicss.com/mui-0.9.16/css/mui.min.css" rel="stylesheet" type="text/css" />
         <script src="//cdn.muicss.com/mui-0.9.16/js/mui.min.js"></script>
         <link href='//fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+
     </head>
     
+    <link href="https://fonts.googleapis.com/css?family=Oswald:700|Patua+One|Roboto+Condensed:700" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">  
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-    <style>
+<style>
+
+table, tr, th, td, tbody{
+    border: 1px solid white;
+}
+
+body{
+	width:100%;
+	height:100%;
+	font-family: 'Roboto Condensed', sans-serif;
+	
+}
+
+
+h1,h2,h3 {
+	margin:0 0 35px 0;
+	font-family: 'Patua One', cursive;
+	text-transform: uppercase;
+	letter-spacing:1px;
+}
+
+p{
+	margin:0 0 25px;
+	font-size:18px;
+	line-height:1.6em;
+}
+a{
+	color:#26a5d3;
+}
+a:hover,a:focus{
+	text-decoration:none;
+	color:#26a5d3;
+}
+
+#contact{
+	background:#333333;
+	color:#f4f4f4;
+	padding-bottom:80px;
+}
+
+textarea.form-control{
+    height:100px;
+}
+
     .demo-layout-transparent {
-        background: url('img/homeImage.jpg') center / cover;
+        background: url('img/productImage.jpg') center / cover;
         }
         .demo-layout-transparent .mdl-layout__header,
         .demo-layout-transparent .mdl-layout__drawer-button {
@@ -46,10 +104,10 @@
                     <nav class="mdl-navigation">
                         <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
+                        <a class="mdl-navigation__link" href="customer/dashboard.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
                         <a class="mdl-navigation__link" href="contact.php">Contact</a>
+                        <a class="mdl-navigation__link" href="customer/customerLogout.php">Logout</a>
                     </nav>
                     </div>
                 </header>
@@ -58,18 +116,88 @@
                     <nav class="mdl-navigation">
                     <a class="mdl-navigation__link" href="index.php">Home</a>
                         <a class="mdl-navigation__link" href="products.php">Products</a>
-                        <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
-                        <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
+                        <a class="mdl-navigation__link" href="customer/dashboard.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
                         <a class="mdl-navigation__link" href="contact.php">Contact</a>
+                        <a class="mdl-navigation__link" href="customer/customerLogout.php">Logout</a>
                     </nav>
                 </div>   
         </div>
 
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/>
+        <br/><br/><br/>
         
+    <style>
+
+    #searchit{
+        width: 100%;
+    }
+
+    #searchitbutton{
+        width: 100%;
+    }
+
+    #titleHeader{
+        text-align: center;
+    }
+
+    </style>
+
+        <!-- <section id="contact" class="content-section text-center">
+            <div class="contact-section"> -->
+                <div class="container">
+                    <br />
+                    <h4 id="titleHeader">Product </h4>
+                    <br />
+                    <br />
+
+                    <div class="row">
+                        
+                            <?php 
+                                $i = 0;
+                                $retrievedSearchName = $_GET['searchName'];
+                                $customerQuery = "SELECT * FROM product WHERE productName LIKE '%$retrievedSearchName%'";
+
+                                $gettingConnection = new Connection();
+                                $gettingConnection -> setConnection();
+                                $connection = $gettingConnection -> getConnection();
+                        
+                                $viewProcess = new View();
+                                $data = $viewProcess -> execute($customerQuery, $connection);
+                        
+                                while ($row = mysqli_fetch_assoc($data)) {
+                                    $temp = 1;
+                                    
+                                    foreach ($row as $item) {
+                                        if($temp == 1)
+                                        {
+                                            $productId = $row["productId"];
+                                            $productImage = $row["productImage"];
+                                            $productDescription = $row["productDescription"];
+                                            $temp = 0;
+                                        }
+                                    }
+                            
+                                $i++;
+                            ?>
+                            <div class="col-md-6 col-md-offset-6">
+                                <img src="admin/product/product_images/<?php echo $productImage; ?>" height="500" width="500" />
+                            </div>
+                            <div class="col-md-6 col-md-offset-6">
+                                <p><?php echo $productDescription; ?></p>
+                                <a href="functions/OOTest.php?productValue=<?php echo $productId; ?>" >Details</a>
+                            </div>
+                            <?php 
+                                    }
+                                    mysqli_close($connection); 
+                                ?>	<!-- Closing of the while loop -->
+                            
+                    </div>
+                </div>
+            <!-- </div>
+        </section> -->
+
         
 <br /><br />
 
@@ -128,21 +256,6 @@
 
         </footer>
 
-        <script>
-  (function() {
-    var cx = '010795612459225870084:tb4n-gfzerk';
-    var gcse = document.createElement('script');
-    gcse.type = 'text/javascript';
-    gcse.async = true;
-    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(gcse, s);
-  })();
-</script>
-<gcse:search></gcse:search>
-
     </div>
-
-    
     </body>
 </html>
