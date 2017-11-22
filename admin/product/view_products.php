@@ -1,6 +1,5 @@
-<!DOCTYPE HTML>
 <?php
-    session_start();
+session_start();
     require('../../functions/Connection.php');
     require('../../functions/View.php');
 
@@ -16,7 +15,7 @@
     $row = mysqli_fetch_assoc($data);
     $adminEmail = $row['email'];
     ?>
-
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>Bronte Assortment</title>
@@ -72,6 +71,13 @@
                 </div>
                 </header>
                 <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
+                    <a href="../../app/index.html" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>Angular JS</a>
+                    <a href="../../api/product/read_xml.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>XML</a>
+                    <a href="../../api/product/read.xsl" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>XSL</a>
+                    <a href="../../api/product/read_xslt.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>XSLT</a>
+                    <a href="../../api/product/read.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>JSON</a>
+                    <a href="../../api/product/read_paging.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>Pagination</a>
+                    <a href="../../api/product/search.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>Search</a>
                     <a href="insert_products.php" class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">insert_drive_file</i>Insert Products</a>
                     <div class="mdl-layout-spacer"></div>
                 </nav>

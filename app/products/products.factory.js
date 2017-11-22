@@ -6,7 +6,7 @@ app.factory("productsFactory", function($http){
        factory.readProducts = function(){
            return $http({
                method: 'GET',
-               url: 'http://localhost/lynxco/api/product/read.php'
+                url: 'https://lynxco.000webhostapp.com/api/product/read.php'
            });
        };
         
@@ -35,12 +35,11 @@ app.factory("productsFactory", function($http){
             return $http({
                 method: 'POST',
                 data: {
-                    'name' : $scope.name,
-                    'description' : $scope.description,
-                    'price' : $scope.price,
-                    'category_id' : 1
+                    'productName' : $scope.name,
+                    'productDescription' : $scope.description,
+                    'productPrice' : $scope.price
                 },
-                url: 'http://localhost/lynxco/api/product/create.php'
+                url: 'https://lynxco.000webhostapp.com/api/product/create.php'
             });
 
         };
@@ -50,7 +49,7 @@ app.factory("productsFactory", function($http){
         factory.readOneProduct = function(id){
             return $http({
                 method: 'GET',
-                url: 'http://localhost/lynxco/api/product/read_one.php?id=' + id
+                url: 'https://lynxco.000webhostapp.com/api/product/read_one.php?id=' + id
             });
         };
 
@@ -59,13 +58,12 @@ app.factory("productsFactory", function($http){
             return $http({
                 method: 'POST',
                 data: {
-                    'id' : $scope.id,
-                    'name' : $scope.name,
-                    'description' : $scope.description,
-                    'price' : $scope.price,
-                    'category_id' : 1
+                    'productId' : $scope.id,
+                    'productName' : $scope.name,
+                    'productDescription' : $scope.description,
+                    'productPrice' : $scope.price
                 },
-                url: 'http://localhost/lynxco/api/product/update.php'
+                url: 'https://lynxco.000webhostapp.com/api/product/update.php'
             });
         };
     
@@ -74,8 +72,8 @@ app.factory("productsFactory", function($http){
     factory.deleteProduct = function(id){
         return $http({
             method: 'POST',
-            data: { 'id' : id },
-            url: 'http://localhost/lynxco/api/product/delete.php'
+            data: { 'productId' : id },
+            url: 'https://lynxco.000webhostapp.com/api/product/delete.php'
         });
     };
     
@@ -84,7 +82,7 @@ app.factory("productsFactory", function($http){
     factory.searchProducts = function(keywords){
         return $http({
             method: 'GET',
-            url: 'http://localhost/lynxco/api/product/search.php?s=' + keywords
+            url: 'https://lynxco.000webhostapp.com/api/product/search.php?s=' + keywords
         });
     };
         

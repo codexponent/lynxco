@@ -2,20 +2,14 @@
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
- 
-// include database and object files
 include_once '../config/core.php';
 include_once '../shared/utilities.php';
-// include_once '../config/database.php';
 include_once '../objects/product.php';
 include_once '../../functions/Connection.php';
  
 // utilities
 $utilities = new Utilities();
- 
-// instantiate database and product object
-// $database = new Database();
-// $db = $database->getConnection();
+
 $database = new Connection();
 $database->setConnection();
 $db = $database->getConnection();
@@ -28,8 +22,7 @@ $stmt = $product->readPaging($from_record_num, $records_per_page);
 $num = $stmt->num_rows;
  
 // check if more than 0 record found
-if($num>0){
- 
+if($num>0){ 
     // products array
     $products_arr=array();
     $products_arr["records"]=array();
@@ -39,23 +32,19 @@ if($num>0){
     // fetch() is faster than fetchAll()
     // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
     while ($row = mysqli_fetch_assoc($stmt)){
-        // extract row
-        // this will make $row['name'] to
-        // just $name only
         extract($row);
- 
         $product_item=array(
-            "id" => $id,
-            "name" => $name,
-            "description" => html_entity_decode($description),
-            "price" => $price,
-            "category_id" => $category_id,
-            "category_name" => $category_name
+            "productId" => $productId,
+            "productCategory" => $productCategory,
+            "productName" => $productName,
+            "productImage" => $productImage,
+            "productDescription" => html_entity_decode($productDescription),
+            "productQuantity" => $productQuantity,
+            "productStock" => $productStock,
+            "productPrice" => $productPrice
         );
- 
         array_push($products_arr["records"], $product_item);
     }
- 
  
     // include paging
     $total_rows=$product->count();

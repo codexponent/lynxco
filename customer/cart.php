@@ -1,4 +1,3 @@
-<!DOCTYPE HTML>
 <?php
     session_start();
     require('../functions/Connection.php');
@@ -13,6 +12,7 @@
     $customerId = $_SESSION['customerId'];
     ob_start();
 ?>
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>Lynx Co</title>

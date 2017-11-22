@@ -2,7 +2,7 @@
 
 // Load the XML source
 $xml = new DOMDocument;
-$xml->load('http://localhost/lynxco/api/product/read_xml.php');
+$xml->load('https://lynxco.000webhostapp.com/api/product/read_xml.php');
 
 $xsl = new DOMDocument;
 $xsl->substituteEntities = true;

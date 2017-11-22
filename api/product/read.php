@@ -36,12 +36,14 @@ if($num>0){
         extract($row);
  
         $product_item=array(
-            "id" => $id,
-            "name" => $name,
-            "description" => html_entity_decode($description),
-            "price" => $price,
-            "category_id" => $category_id,
-            "category_name" => $category_name
+            "productId" => $productId,
+            "productCategory" => $productCategory,
+            "productName" => $productName,
+            "productImage" => $productImage,
+            "productDescription" => html_entity_decode($productDescription),
+            "productQuantity" => $productQuantity,
+            "productStock" => $productStock,
+            "productPrice" => $productPrice
         );
  
         array_push($products_arr["records"], $product_item);

@@ -1,9 +1,13 @@
 <?php
     class Connection{
+        // private $serverName = "localhost";
+        // private $userName = "root";
+        // private $password = "";
+        // private $databaseName = "lynx";
         private $serverName = "localhost";
-        private $userName = "root";
-        private $password = "";
-        private $databaseName = "lynx";
+        private $userName = "id3706090_root";
+        private $password = "password";
+        private $databaseName = "id3706090_lynx";
         private $connection;
 
         public function setConnection(){                

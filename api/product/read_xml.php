@@ -2,8 +2,6 @@
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
- 
-// include database and object files
 include_once '../objects/product.php';
 include_once '../../functions/Connection.php';
  
@@ -39,38 +37,31 @@ if($num>0){
         extract($row);
  
         $product_item=array(
-            "id" => $id,
-            "name" => $name,
-            "description" => html_entity_decode($description),
-            "price" => $price,
-            "category_id" => $category_id,
-            "category_name" => $category_name
+            "productId" => $productId,
+            "productCategory" => $productCategory,
+            "productName" => $productName,
+            "productImage" => $productImage,
+            "productDescription" => html_entity_decode($productDescription),
+            "productQuantity" => $productQuantity,
+            "productStock" => $productStock,
+            "productPrice" => $productPrice
         );
  
         $newXML = $newsXML->addChild('product');
 
-        $newsIntro = $newXML->addChild('id', $id);
-        $newsIntro = $newXML->addChild('name', $name);
-        $newsIntro = $newXML->addChild('description', $description);
-        $newsIntro = $newXML->addChild('price', $price);
-        $newsIntro = $newXML->addChild('category_id', $category_id);
-        $newsIntro = $newXML->addChild('category_name', $category_name);
+        $newsIntro = $newXML->addChild('productId', $productId);
+        $newsIntro = $newXML->addChild('productCategory', $productCategory);
+        $newsIntro = $newXML->addChild('productName', $productName);
+        $newsIntro = $newXML->addChild('productImage', $productImage);
+        $newsIntro = $newXML->addChild('productDescription', $productDescription);
+        $newsIntro = $newXML->addChild('productQuantity', $productQuantity);
+        $newsIntro = $newXML->addChild('productStock', $productStock);
+        $newsIntro = $newXML->addChild('productPrice', $productPrice);
 
         array_push($products_arr["records"], $product_item);
     }
- 
-    // echo json_encode($products_arr);
-    // $newsXML = new SimpleXMLElement("<product></product>");
-    // $newsXML->addAttribute('newsPagePrefix', 'value goes here');
-    // $newsIntro = $newsXML->addChild('id');
-    // $newsIntro->addAttribute('id', '12');
+
     Header('Content-type: text/xml');
     echo $newsXML->asXML();
 }
- 
-// else{
-//     echo json_encode(
-//         array("message" => "No products found.")
-//     );
-// }
 ?>

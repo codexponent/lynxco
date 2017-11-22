@@ -11,9 +11,9 @@
       </tr>
       <xsl:for-each select="products/product">
       <tr>
-        <td><xsl:value-of select="name"/></td>
-        <td><xsl:value-of select="description"/></td>
-        <td><xsl:value-of select="price"/></td>
+        <td><xsl:value-of select="productName"/></td>
+        <td><xsl:value-of select="productDescription"/></td>
+        <td><xsl:value-of select="productPrice"/></td>
       </tr>
       </xsl:for-each>
     </table>

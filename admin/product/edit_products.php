@@ -1,7 +1,5 @@
-<!DOCTYPE html>
 <?php
-	// Getting the id when the corresponding edit link is clicked
-	session_start();
+session_start();
     require('../../functions/Connection.php');
     require('../../functions/Update.php');
     require('../../functions/View.php');
@@ -55,7 +53,7 @@
 	}
 
 ?>
-
+<!DOCTYPE html>
 <html>
             <head>
         <title>Lynx Co</title>

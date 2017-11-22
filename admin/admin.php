@@ -1,6 +1,5 @@
-<!DOCTYPE HTML>
-    <?php
-        session_start();
+<?php
+session_start();
         require('../functions/Connection.php');
         require('../functions/View.php');
 
@@ -16,7 +15,7 @@
         $row = mysqli_fetch_assoc($data);
         $adminEmail = $row['email'];
 		?>
-
+<!DOCTYPE HTML>
     <html>
         <head>
         <title>Lynx Co</title>

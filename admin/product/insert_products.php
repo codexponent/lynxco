@@ -1,6 +1,5 @@
-<!DOCTYPE HTML>
 <?php
-    session_start();
+session_start();
     require('../../functions/Connection.php');
     require('../../functions/View.php');
     require('../../functions/Insert.php');
@@ -18,7 +17,7 @@
     $adminEmail = $row['email'];    
     
     ?>
-
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>Lynx Co</title>

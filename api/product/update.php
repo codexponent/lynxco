@@ -6,14 +6,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
  
-// include database and object files
-// include_once '../config/database.php';
 include_once '../objects/product.php';
- 
-// get database connection
-// $database = new Database();
-// $db = $database->getConnection();
-
 include_once '../../functions/Connection.php';
 
 // instantiate database and product object
@@ -23,29 +16,17 @@ $db = $database->getConnection();
  
 // prepare product object
 $product = new Product($db);
- 
-// get id of product to be edited
-
-// $data = json_decode(file_get_contents("php://input"));
-
 $postdata = file_get_contents("php://input");
-// $postdata = file_get_contents("http://www.google.co.uk");
-echo $postdata;
-// echo 'The data type of postdata is '.gettype($postdata);
-// echo $postdata;
-
-// $request = json_decode($postdata, FALSE);
 $data = json_decode($postdata);
-// echo $data;
- 
-// set ID property of product to be edited
-$product->id = $data->id;
 
-// set product property values
-$product->name = $data->name;
-$product->price = $data->price;
-$product->description = $data->description;
-$product->category_id = $data->category_id;
+$product->productId = $data->productId;
+$product->productCategory = "1";
+$product->productName = $data->productName;
+$product->productImage = "sample.png";
+$product->productDescription = $data->productDescription;
+$product->productQuantity = "100";
+$product->productStock = "100";
+$product->productPrice = $data->productPrice; 
  
 // update the product
 if($product->update()){

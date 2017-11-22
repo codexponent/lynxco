@@ -32,6 +32,8 @@
     font-family: 'Julius Sans One', sans-serif;
     background-color: #3B3738
 }
+
+
     </style>
     <body>
         <div>
@@ -49,6 +51,8 @@
                         <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
                         <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
+                        <a class="mdl-navigation__link" href="featured.php">Featured</a>
+                        <a class="mdl-navigation__link" href="twitter/index.php">Twitter</a>
                         <a class="mdl-navigation__link" href="contact.php">Contact</a>
                     </nav>
                     </div>
@@ -61,6 +65,8 @@
                         <a class="mdl-navigation__link" href="login/adminLogin.php">Admin</a>
                         <a class="mdl-navigation__link" href="login/customer.php">Customer</a>
                         <a class="mdl-navigation__link" href="about.php">About</a>
+                        <a class="mdl-navigation__link" href="featured.php">Featured</a>
+                        <a class="mdl-navigation__link" href="twitter/index.php">Twitter</a>
                         <a class="mdl-navigation__link" href="contact.php">Contact</a>
                     </nav>
                 </div>   
@@ -68,9 +74,11 @@
 
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/>
         
         
+    
+        
+<br /><br />
 <br /><br />
 
     <!--//Footer-->
@@ -125,9 +133,8 @@
         <div class="mdl-mega-footer__bottom-section">
           <div class="mdl-logo">Copyright Lynx Co</div>
         </div>
-
         </footer>
-
+        
         <script>
   (function() {
     var cx = '010795612459225870084:tb4n-gfzerk';
@@ -145,4 +152,5 @@
 
     
     </body>
+    
 </html>

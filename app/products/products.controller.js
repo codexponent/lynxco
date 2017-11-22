@@ -15,9 +15,7 @@ app.controller('productsController', function($scope, $mdDialog, $mdToast, produ
        // showCreateProductForm will be here
        // show 'create product form' in dialog box
         $scope.showCreateProductForm = function(event){
-
             console.log("Form is created");
-            
             $mdDialog.show({
                 controller: DialogController,
                 templateUrl: './products/create_product.template.html',
@@ -31,39 +29,24 @@ app.controller('productsController', function($scope, $mdDialog, $mdToast, produ
         //createProduct will be here
         // create new product
         $scope.createProduct = function(){
-            
             productsFactory.createProduct($scope).then(function successCallback(response){
-            
-                console.log("Chek controlll here");
-                console.log($scope);
-                console.log("response");
-                console.log(response);
-
                 // tell the user new product was created
                 $scope.showToast(response.data.message);
-            
                 // refresh the list
                 $scope.readProducts();
-            
                 // close dialog
                 $scope.cancel();
-            
                 // remove form values
                 $scope.clearProductForm();
-            
             }, function errorCallback(response){
                 // $scope.showToast("Unable to create record.");
                 $scope.showToast("Successfully Created.");
-
                 // // tell the user new product was created
                 // $scope.showToast(response.data.message);
-                
                     // refresh the list
                     $scope.readProducts();
-                
                     // close dialog
                     $scope.cancel();
-                
                     // remove form values
                     $scope.clearProductForm();
             });
@@ -74,13 +57,15 @@ app.controller('productsController', function($scope, $mdDialog, $mdToast, produ
 $scope.readOneProduct = function(id){
     
        // get product to be edited
+       console.log("Inside readOneproduct");
+       console.log(id);
        productsFactory.readOneProduct(id).then(function successCallback(response){
-    
            // put the values in form
-           $scope.id = response.data.id;
-           $scope.name = response.data.name;
-           $scope.description = response.data.description;
-           $scope.price = response.data.price;
+
+           $scope.id = response.data.productId;
+           $scope.name = response.data.productName;
+           $scope.description = response.data.productDescription;
+           $scope.price = response.data.productPrice;
     
            $mdDialog.show({
                controller: DialogController,
@@ -92,32 +77,36 @@ $scope.readOneProduct = function(id){
                fullscreen: true
            }).then(
                function(){},
-    
                // user clicked 'Cancel'
                function() {
                    // clear modal content
                    $scope.clearProductForm();
                }
            );
-    
        }, function errorCallback(response){
-           $scope.showToast("Unable to retrieve record.");
+           $scope.showToast("Unable to retrieve record and show readOne.");
+           
        });
     
    }
     
    // showUpdateProductForm will be here
    // retrieve record to fill out the form
-$scope.showUpdateProductForm = function(id){
+$scope.showUpdateProductForm = function(event, id){
     
+    console.log("Inside ShowUpdateProductForm");
+    console.log(id);
+    console.log("event");
+    console.log(event);
+
        // get product to be edited
        productsFactory.readOneProduct(id).then(function successCallback(response){
     
            // put the values in form
-           $scope.id = response.data.id;
-           $scope.name = response.data.name;
-           $scope.description = response.data.description;
-           $scope.price = response.data.price;
+           $scope.id = response.data.productId;
+           $scope.name = response.data.productName;
+           $scope.description = response.data.productDescription;
+           $scope.price = response.data.productPrice;
     
            $mdDialog.show({
                controller: DialogController,
@@ -187,6 +176,13 @@ $scope.updateProduct = function(){
 $scope.confirmDeleteProduct = function(event, id){
     
        // set id of record to delete
+
+    console.log("inside Delete");
+    console.log(id);
+    console.log("event");
+    console.log(event);
+
+
        $scope.id = id;
     
        // dialog settings
@@ -202,6 +198,7 @@ $scope.confirmDeleteProduct = function(event, id){
            // 'Yes' button
            function() {
                // if user clicked 'Yes', delete product record
+               console.log("Yes Clicked");
                $scope.deleteProduct();
            },
     
@@ -214,19 +211,14 @@ $scope.confirmDeleteProduct = function(event, id){
 
    // delete product
     $scope.deleteProduct = function(){
-    
        productsFactory.deleteProduct($scope.id).then(function successCallback(response){
-    
            // tell the user product was deleted
            $scope.showToast(response.data.message);
-    
            // refresh the list
            $scope.readProducts();
-    
        }, function errorCallback(response){
            $scope.showToast("Unable to delete record.");
        });
-    
    }
     
    // searchProducts will be here

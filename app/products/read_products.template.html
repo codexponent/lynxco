@@ -2,7 +2,6 @@
     <div flex="10"></div>
  
     <div flex="80" class='m-20px-0'>
- 
         <!-- page title & 'create product' button -->
         <md-toolbar class="md-hue-2">
             <div class="md-toolbar-tools">
@@ -14,7 +13,6 @@
                 <!-- 'create' product button will be here -->
                 <!-- button for creating product -->
                 <md-button class="md-raised" ng-click="showCreateProductForm()">Create</md-button>
-
 
             </div>
         </md-toolbar>
@@ -35,21 +33,21 @@
  
                     <!-- product information -->
                     <div class="md-list-item-text">
-                        <h3>{{product.name}}</h3>
-                        <h4>{{product.description}}</h4>
-                        <p>${{product.price}}</p>
+                        <h3>{{product.productName}}</h3>
+                        <h4>{{product.productDescription}}</h4>
+                        <p>${{product.productPrice}}</p>
                     </div>
  
                     <!-- 'read one', 'edit' and 'delete' buttons -->
                     <div class="md-secondary-container">
                         <!-- 'read one' button will be here -->
-                        <md-button class="md-raised md-info" ng-click="readOneProduct(product.id)">Read One</md-button>
+                        <md-button class="md-raised md-info" ng-click="readOneProduct(product.productId)">Read One</md-button>
 
                         <!-- 'edit' button will be here -->
-                        <md-button class="md-raised md-primary" ng-click="showUpdateProductForm(product.id)">Edit</md-button>
+                        <md-button class="md-raised md-primary" ng-click="showUpdateProductForm($event, product.productId)">Edit</md-button>
                         
                         <!-- 'delete' button will be here -->
-                        <md-button class="md-raised md-danger" ng-click="confirmDeleteProduct($event, product.id)">Delete</md-button>
+                        <md-button class="md-raised md-danger" ng-click="confirmDeleteProduct($event, product.productId)">Delete</md-button>
 
                     </div>
                     <md-divider ng-if="!$last"></md-divider>

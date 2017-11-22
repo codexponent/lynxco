@@ -1,6 +1,5 @@
-<!DOCTYPE HTML>
 <?php
-    session_start();
+session_start();
     require('functions/Connection.php');
     require('functions/View.php');
 
@@ -9,6 +8,7 @@
     // require_once('../vendor/tcpdf/tcpdf.php');
     // $customerId = $_SESSION['customerId'];
 ?>
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>Lynx Co</title>
