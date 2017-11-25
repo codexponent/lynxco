@@ -1,29 +1,27 @@
-<?php 
+<?php
 session_start();
-    require('../functions/Connection.php');
-    require('../functions/Delete.php');
+require('../functions/Connection.php');
+require('../functions/Delete.php');
+
+
+if(isset($_SESSION['customerId'])){
     
-
-	if(isset($_SESSION['customerId'])){
-
-        $customerId = $_SESSION['customerId'];
-        $productId = $_GET['productValue'];
-		$deleteQuery = "DELETE FROM cart WHERE customerId = '$customerId' AND productId = '$productId'";
-        // echo "<script>window.history.back();</script>";
-        // echo "<script>window.open('../index.php', '_self')</script>";
-
-        echo "Query Is: ";
-        echo $deleteQuery;
-
-        $gettingConnection = new Connection();
-        $gettingConnection -> setConnection();
-        $connection = $gettingConnection -> getConnection();
+    $customerId = $_SESSION['customerId'];
+    $productId = $_GET['productValue'];
+    $deleteQuery = "DELETE FROM cart WHERE customerId = '$customerId' AND productId = '$productId'";
     
-        $deleteProcess = new Delete();
-        $data = $deleteProcess -> execute($deleteQuery, $connection);        
-
-        header("Location: cart.php");  
-
-	}
+    echo "Query Is: ";
+    echo $deleteQuery;
+    
+    $gettingConnection = new Connection();
+    $gettingConnection -> setConnection();
+    $connection = $gettingConnection -> getConnection();
+    
+    $deleteProcess = new Delete();
+    $data = $deleteProcess -> execute($deleteQuery, $connection);
+    
+    header("Location: cart.php");
+    
+}
 
 ?>

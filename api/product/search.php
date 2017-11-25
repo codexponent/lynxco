@@ -29,7 +29,6 @@ if($num>0){
  
     // retrieve our table contents
     // fetch() is faster than fetchAll()
-    // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
     while ($row = mysqli_fetch_assoc($stmt)){
         // extract row
         // this will make $row['name'] to

@@ -1,28 +1,25 @@
 <?php
-    require('../functions/Connection.php');
-    require('../functions/View.php');
-    
-    $u = $_REQUEST['u'];
-    //echo $u;
+require('../functions/Connection.php');
+require('../functions/View.php');
 
-    $gettingConnection = new Connection();
-    $gettingConnection -> setConnection();
-    $connection = $gettingConnection -> getConnection();
+$u = $_REQUEST['u'];
+//echo $u;
 
-    $checkQuery = "select * from customer where email='$u'";
-    // $result = mysqli_query($connection, $sql_query); 
-    
-    $viewProcess = new View();
-    $data = $viewProcess -> execute($checkQuery, $connection);
-    $answer = mysqli_num_rows($data) ;
+$gettingConnection = new Connection();
+$gettingConnection -> setConnection();
+$connection = $gettingConnection -> getConnection();
 
-    if($answer > 0){
-        echo "found";
-    }else{
-        echo "not found";
-    }
-            
+$checkQuery = "select * from customer where email='$u'";
+// $result = mysqli_query($connection, $sql_query);
 
+$viewProcess = new View();
+$data = $viewProcess -> execute($checkQuery, $connection);
+$answer = mysqli_num_rows($data) ;
 
+if($answer > 0){
+    echo "found";
+}else{
+    echo "not found";
+}
 
 ?>

@@ -19,20 +19,12 @@ $product = new Product($db);
 // get posted data
 // $data = json_decode(file_get_contents("php://input"));
 $postdata = file_get_contents("php://input");
-// $postdata = file_get_contents("http://www.google.co.uk");
-echo $postdata;
 
 // $request = json_decode($postdata, FALSE);
 $data = json_decode($postdata);
 print_r($data);
  
 // set product property values
-// $product->name = $data->name;
-// $product->price = $data->price;
-// $product->description = $data->description;
-// $product->category_id = $data->category_id;
-// $product->created = date('Y-m-d H:i:s');
-
 $product->productCategory = "1";
 $product->productName = $data->productName;
 $product->productImage = "sample.png";

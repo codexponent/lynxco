@@ -98,8 +98,7 @@ foreach($string as $items)
         $screenName = $items['user']['screen_name'];
         $followers = $items['user']['followers_count'];
         $friends = $items['user']['friends_count'];
-        $listed = $items['user']['listed_count'];
-    
+        $listed = $items['user']['listed_count'];  
 ?>
 
 

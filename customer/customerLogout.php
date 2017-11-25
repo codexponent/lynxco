@@ -5,5 +5,4 @@ unset($_SESSION['customerId']);
 session_destroy();
 header("Location: ../index.php");  
 
-
 ?>

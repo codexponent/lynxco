@@ -8,6 +8,11 @@ session_start();
     // echo $_SESSION['customerId'];
     // require_once('../vendor/tcpdf/tcpdf.php');
     $customerId = $_SESSION['customerId'];
+
+    if (isset($customerId)){
+
+    
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -187,7 +192,7 @@ textarea.form-control{
                                 $i++;
                             ?>
                             <div class="col-md-6 col-md-offset-6">
-                                <img src="admin/product/product_images/<?php echo $productImage; ?>" height="500" width="500" />
+                                <img src="admin/product/product_images/<?php echo $productImage; ?>" height="300" width="300" />
                             </div>
                             <div class="col-md-6 col-md-offset-6">
                                 <p><?php echo $productDescription; ?></p>
@@ -197,6 +202,7 @@ textarea.form-control{
                                     <button type="submit" name="submitCart" value="<?php echo $productId; ?>"  >Add to Cart</button>
                                 </form>
                             </div>
+                            <hr />
                             <?php 
                                     }
                                     // mysqli_close($connection); 
@@ -295,4 +301,10 @@ if (isset($_POST['submitCart'])){
 
 }
 
+?>
+<?php 
+}else{
+    echo "<script>alert('You Must Log In First')</script>";
+    header("Location: login/customer.php");  
+}
 ?>

@@ -1,6 +1,6 @@
 <div layout="row" ng-controller="productsController" ng-cloak>
     <div flex="10"></div>
- 
+
     <div flex="80" class='m-20px-0'>
         <!-- page title & 'create product' button -->
         <md-toolbar class="md-hue-2">
@@ -9,14 +9,14 @@
                 <div flex md-truncate>
                     <h3 class="md-headline">Products</h3>
                 </div>
- 
+
                 <!-- 'create' product button will be here -->
                 <!-- button for creating product -->
                 <md-button class="md-raised" ng-click="showCreateProductForm()">Create</md-button>
 
             </div>
         </md-toolbar>
- 
+
         <!-- 'search' bar will be here -->
         <!-- used for searching products in api -->
         <md-input-container class="md-block m-b-0px">
@@ -25,19 +25,19 @@
                 <input ng-model="product_search_keywords">
             </form>
         </md-input-container>
- 
+
         <md-content flex>
             <!-- show product record list -->
             <md-list ng-init="readProducts()">
                 <md-list-item class="md-3-line" ng-repeat="product in products">
- 
+
                     <!-- product information -->
                     <div class="md-list-item-text">
                         <h3>{{product.productName}}</h3>
                         <h4>{{product.productDescription}}</h4>
                         <p>${{product.productPrice}}</p>
                     </div>
- 
+
                     <!-- 'read one', 'edit' and 'delete' buttons -->
                     <div class="md-secondary-container">
                         <!-- 'read one' button will be here -->
@@ -45,7 +45,7 @@
 
                         <!-- 'edit' button will be here -->
                         <md-button class="md-raised md-primary" ng-click="showUpdateProductForm($event, product.productId)">Edit</md-button>
-                        
+
                         <!-- 'delete' button will be here -->
                         <md-button class="md-raised md-danger" ng-click="confirmDeleteProduct($event, product.productId)">Delete</md-button>
 
@@ -55,6 +55,7 @@
             </md-list>
         </md-content>
     </div>
- 
+
     <div flex="10"></div>
-</div> <!-- end row -->
+</div>
+<!-- end row -->
